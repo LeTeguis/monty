@@ -86,7 +86,7 @@ int _free(char **arg)
 	return (0);
 }
 
-char **_getline_arg(FILE *file)
+char **_getline_arg(FILE *file, size_t *arc)
 {
 	char *linestr;
 	size_t n = 0;
@@ -120,5 +120,6 @@ char **_getline_arg(FILE *file)
 	}
 	arg[nbr_arg] = 0;
 	free(linestr);
+	*arc = nbr_arg;
 	return (arg);
 }

@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
 			while (1)
 			{
 				unsigned int indice = 0;
-				char **arg = _getline_arg(fichier);
+				size_t arc = 0;
+				char **arg = _getline_arg(fichier, &arc);
 				int error = 1;
 
 				if (arg == 0)
@@ -27,6 +28,12 @@ int main(int argc, char *argv[])
 					{
 						if (_strcmp(arg[0], "push") == 0)
 						{
+							if (arc != 2)
+							{
+								printf("L%d: usage: push integer\n", ligne + 1);
+								exit(EXIT_FAILURE);
+								return (0);
+							}
 							value = atoi(arg[1]);
 						}
 						instructions[indice].f(&stack_, ligne + 1);

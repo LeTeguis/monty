@@ -49,7 +49,7 @@ int printferr(int erreur, char *message, char *sup);
 int _strcmp(char *s1, char *s2);
 
 int _free(char **arg);
-char **_getline_arg(FILE *file);
+char **_getline_arg(FILE *file, size_t *arc);
 
 void defineInstruction();
 void setInstruction(int index, char *opcode, void (*f)(stack_t **stack, unsigned int line_number));
