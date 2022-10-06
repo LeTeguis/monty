@@ -4,9 +4,18 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_stack = 0;
 	stack_t *tmp = *stack;
-
-	if (stack == 0)
+	int erreur = argumentCorrect("push", 2);
+	
+	_argument.passed = 0;
+	if (erreur == -1)
+	{
+		printf("L%u: usage: push integer\n", line_number);
+		_argument.passed = 1;
+		exit(EXIT_FAILURE);
+	}
+	if (erreur == 0 || stack == 0)
 		return;
+	_argument.passed = 1;
 	new_stack = (stack_t *)malloc(sizeof(stack_t));
 	if (new_stack == 0)
 	{
@@ -15,7 +24,7 @@ void push(stack_t **stack, unsigned int line_number)
 		return;
 	}
 	line_number++;
-	new_stack->n = value;
+	new_stack->n = atoi(_argument.argv[1]);
 	new_stack->next = 0;
 	new_stack->prev = 0;
 	if (*stack == 0)
@@ -37,10 +46,18 @@ void push(stack_t **stack, unsigned int line_number)
 void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;
+	int erreur = argumentCorrect("pall", 1);
 
-	if (stack == 0 || *stack == 0)
+	_argument.passed = 0;
+	if (erreur == -1)
+	{
+		printf("L%u: usage: pall\n", line_number);
+		_argument.passed = 1;
+		exit(EXIT_FAILURE);
+	}
+	if (erreur == 0 || stack == 0 || *stack == 0)
 		return;
-	line_number++;
+	_argument.passed = 1;
 	while (tmp->prev != 0)
 	{
 		stack_t *next = tmp;

@@ -14,29 +14,20 @@ int main(int argc, char *argv[])
 			while (1)
 			{
 				unsigned int indice = 0;
-				size_t arc = 0;
-				char **arg = _getline_arg(fichier, &arc);
 				int error = 1;
+				size_t arg;
 
-				if (arg == 0)
+				_argument.argv = _getline_arg(fichier, &arg);
+				_argument.argc = arg;
+				if (_argument.argv == 0)
 				{
 					break;
 				}
 				for (indice = 0; indice < OPCODE_SIZE; indice++)
 				{
-					if (_strcmp(arg[0], instructions[indice].opcode) == 0)
+					instructions[indice].f(&stack_, ligne + 1);
+					if (_argument.passed)
 					{
-						if (_strcmp(arg[0], "push") == 0)
-						{
-							if (arc != 2)
-							{
-								printf("L%d: usage: push integer\n", ligne + 1);
-								exit(EXIT_FAILURE);
-								return (0);
-							}
-							value = atoi(arg[1]);
-						}
-						instructions[indice].f(&stack_, ligne + 1);
 						error = 0;
 						break;
 					}
@@ -44,12 +35,12 @@ int main(int argc, char *argv[])
 
 				if (error)
 				{
-					printf("L%d: unknown instruction %s\n", ligne + 1, arg[0]);
-					_free(arg);
+					printf("L%d: unknown instruction %s\n", ligne + 1, _argument.argv[0]);
+					_free(_argument.argv);
 					exit(EXIT_FAILURE);
 					return (0);
 				}
-				_free(arg);
+				_free(_argument.argv);
 				ligne++;
 			}
 		}

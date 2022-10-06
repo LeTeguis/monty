@@ -38,9 +38,23 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * Argument - argument
+ * @argc: number of argument
+ * @argv: list of argument
+ * @passed: erreur
+ */
+typedef struct Argument
+{
+	size_t passed;
+	int argc;
+	char **argv;
+} Argument;
+
 extern instruction_t instructions[OPCODE_SIZE];
 extern stack_t *stack_;
 extern int value;
+extern Argument _argument;
 
 #define SET_INSTRUCTION(index, fonction) instructions[index].opcode = ##fonction,\
 	instructions[index].f = fonction
@@ -53,6 +67,7 @@ char **_getline_arg(FILE *file, size_t *arc);
 
 void defineInstruction();
 void setInstruction(int index, char *opcode, void (*f)(stack_t **stack, unsigned int line_number));
+int argumentCorrect(char *nom, int nbr_param);
 
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
