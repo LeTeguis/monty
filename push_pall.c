@@ -1,10 +1,29 @@
 #include "monty.h"
 
+int _atoi(char *str, int *error)
+{
+	int digit = 0;
+
+	if (*error == -1 || str == 0)
+		return (0);
+	while (str[digit])
+	{
+		if (str[digit] < '0' || str[digit] > '9')
+		{
+			*error = -1;
+			return (0);
+		}	
+		digit++;
+	}
+	return (atoi(str));
+}
+
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_stack = 0;
 	stack_t *tmp = *stack;
 	int erreur = argumentCorrect("push", 2);
+	int valeur = _atoi(_argument.argv[1], &erreur);
 	
 	_argument.passed = 0;
 	if (erreur == -1)
@@ -24,7 +43,7 @@ void push(stack_t **stack, unsigned int line_number)
 		return;
 	}
 	line_number++;
-	new_stack->n = atoi(_argument.argv[1]);
+	new_stack->n = valeur;
 	new_stack->next = 0;
 	new_stack->prev = 0;
 	if (*stack == 0)
