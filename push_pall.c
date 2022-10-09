@@ -12,7 +12,7 @@ int _atoi(char *str, int *error)
 {
 	int digit = 0;
 
-	if (*error == 0 || *error == -1 || str == 0)
+	if (*error == 0 || str == 0)
 		return (0);
 	while (str[digit])
 	{
@@ -23,6 +23,7 @@ int _atoi(char *str, int *error)
 		}
 		digit++;
 	}
+	*error = 1;
 	return (atoi(str));
 }
 
