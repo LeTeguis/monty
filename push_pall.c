@@ -1,5 +1,13 @@
 #include "monty.h"
 
+/**
+ * _atoi - convert
+ *
+ * @str: str
+ * @error: get error
+ *
+ * Return: int
+ */
 int _atoi(char *str, int *error)
 {
 	int digit = 0;
@@ -12,19 +20,27 @@ int _atoi(char *str, int *error)
 		{
 			*error = -1;
 			return (0);
-		}	
+		}
 		digit++;
 	}
 	return (atoi(str));
 }
 
+/**
+ * push - push
+ *
+ * @stack: stack
+ * @line_number: int
+ *
+ * Return: nothing
+ */
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_stack = 0;
 	stack_t *tmp = *stack;
 	int erreur = argumentCorrect("push", 2);
 	int valeur = _atoi(_argument.argv[1], &erreur);
-	
+
 	_argument.passed = 0;
 	if (erreur == -1)
 	{
@@ -62,6 +78,14 @@ void push(stack_t **stack, unsigned int line_number)
 	tmp->prev = new_stack;
 }
 
+/**
+ * pall - print
+ *
+ * @stack: stack
+ * @line_number: ui
+ *
+ * Return: nothing
+ */
 void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;

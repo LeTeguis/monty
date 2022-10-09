@@ -1,5 +1,12 @@
 #include "monty.h"
 
+/**
+ * _nbrarg - get
+ *
+ * @line: str
+ *
+ * Return: count
+ */
 size_t _nbrarg(char *line)
 {
 	size_t n = 0;
@@ -20,7 +27,14 @@ size_t _nbrarg(char *line)
 	}
 	return (n);
 }
-
+/**
+ * getWordI - get
+ *
+ * @line: str
+ * @index: size_t
+ *
+ * Return: word
+ */
 char *getWordI(char *line, size_t index)
 {
 	size_t n = 0;
@@ -28,7 +42,6 @@ char *getWordI(char *line, size_t index)
 	int prev = 0;
 	int actu = 0;
 	int deb = -1;
-	size_t size_ = 0;
 	char *word = 0;
 
 	while (line[i])
@@ -47,9 +60,7 @@ char *getWordI(char *line, size_t index)
 		i++;
 	}
 	if (deb == -1)
-	{
 		return (0);
-	}
 	i = deb;
 	while (line[i])
 	{
@@ -57,22 +68,24 @@ char *getWordI(char *line, size_t index)
 			break;
 		i++;
 	}
-	size_ = i - deb;
-	word = (char *)malloc(sizeof(char) * (size_));
+	word = (char *)malloc(sizeof(char) * (i - deb));
 	if (word == 0)
 	{
-		printf("Error: malloc failed\n");
-		exit(EXIT_FAILURE);
+		printferr(0, "Error: malloc failed", "");
 		return (0);
 	}
-	for (i = 0; i < size_; i++)
-	{
-		word[i] = line[deb + i];
-	}
-	word[size_] = '\0';
+	for (i = 0; i <= i - deb; i++)
+		word[i] = (i == i - deb) ? '\0' : line[deb + i];
 	return (word);
 }
 
+/**
+ * _free - delete
+ *
+ * @arg: str str
+ *
+ * Return: 0
+ */
 int _free(char **arg)
 {
 	if (arg != 0)
@@ -85,7 +98,14 @@ int _free(char **arg)
 	}
 	return (0);
 }
-
+/**
+ * _getline_arg - get
+ *
+ * @file: File
+ * @arc: size_t
+ *
+ * Return: argument or null
+ */
 char **_getline_arg(FILE *file, size_t *arc)
 {
 	char *linestr;
@@ -102,7 +122,7 @@ char **_getline_arg(FILE *file, size_t *arc)
 	arg = (char **)malloc(sizeof(char *) * (nbr_arg + 1));
 	if (arg == 0)
 	{
-		printf("Error: malloc failed\n");
+		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 		return (0);
 	}

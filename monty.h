@@ -39,7 +39,7 @@ typedef struct instruction_s
 } instruction_t;
 
 /**
- * Argument - argument
+ * struct Argument - argument
  * @argc: number of argument
  * @argv: list of argument
  * @passed: erreur
@@ -56,9 +56,6 @@ extern stack_t *stack_;
 extern int value;
 extern Argument _argument;
 
-#define SET_INSTRUCTION(index, fonction) instructions[index].opcode = ##fonction,\
-	instructions[index].f = fonction
-
 int printferr(int erreur, char *message, char *sup);
 int _strcmp(char *s1, char *s2);
 
@@ -67,8 +64,9 @@ int isMontyFile(char *filename);
 int _free(char **arg);
 char **_getline_arg(FILE *file, size_t *arc);
 
-void defineInstruction();
-void setInstruction(int index, char *opcode, void (*f)(stack_t **stack, unsigned int line_number));
+void defineInstruction(void);
+void setInstruction(int index, char *opcode,
+		void (*f)(stack_t **stack, unsigned int line_number));
 int argumentCorrect(char *nom, int nbr_param);
 
 void push(stack_t **stack, unsigned int line_number);
