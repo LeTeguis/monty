@@ -1,6 +1,6 @@
 #include "monty.h"
 
-instruction_t instructions[OPCODE_SIZE] = {};
+instruction_t instructions[OPCODE_SIZE];
 stack_t *stack_ = 0;
 int value = 0;
 Argument _argument;
