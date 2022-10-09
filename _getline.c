@@ -22,7 +22,9 @@ size_t _nbrarg(char *line)
 		actu = (line[i] == ' ') ? 0 : 1;
 
 		if (actu == 1 && prev == 0)
+		{
 			n++;
+		}
 		i++;
 	}
 	return (n);
@@ -104,7 +106,7 @@ int _free(char **arg)
  *
  * Return: argument or null
  */
-char **_getline_arg(FILE *file, size_t *arc)
+char **_getline_arg(FILE *file, int *arc)
 {
 	char *linestr;
 	size_t n = 0;
@@ -112,8 +114,12 @@ char **_getline_arg(FILE *file, size_t *arc)
 	size_t i = 0;
 	char **arg;
 
+	*arc = 0;
 	if (getline(&linestr, &n, file) == -1)
+	{
+		*arc = -1;
 		return (0);
+	}
 	nbr_arg = _nbrarg(linestr);
 	if (nbr_arg == 0)
 		return (0);
@@ -138,6 +144,6 @@ char **_getline_arg(FILE *file, size_t *arc)
 	}
 	arg[nbr_arg] = 0;
 	free(linestr);
-	*arc = nbr_arg;
+	*arc = (int)nbr_arg;
 	return (arg);
 }

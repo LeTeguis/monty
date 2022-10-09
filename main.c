@@ -12,12 +12,14 @@ int core(FILE *fichier, int ligne)
 {
 	unsigned int indice = 0;
 	int error = 1;
-	size_t arg;
+	int arg;
 
 	_argument.argv = _getline_arg(fichier, &arg);
+	if (arg == -1)
+		return (0);
 	_argument.argc = arg;
 	if (_argument.argv == 0)
-		return (0);
+		return (2);
 	for (indice = 0; indice < OPCODE_SIZE; indice++)
 	{
 		instructions[indice].f(&stack_, ligne + 1);
@@ -59,7 +61,9 @@ int main(int argc, char *argv[])
 			defineInstruction();
 			while (1)
 			{
-				if (core(fichier, ligne) == 0)
+				int error = core(fichier, ligne);
+
+				if (error == 0)
 					break;
 				ligne++;
 			}
