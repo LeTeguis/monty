@@ -62,6 +62,8 @@ extern Argument _argument;
 int printferr(int erreur, char *message, char *sup);
 int _strcmp(char *s1, char *s2);
 
+int isMontyFile(char *filename);
+
 int _free(char **arg);
 char **_getline_arg(FILE *file, size_t *arc);
 
