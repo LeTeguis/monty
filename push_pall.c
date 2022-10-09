@@ -12,7 +12,7 @@ int _atoi(char *str, int *error)
 {
 	int digit = 0;
 
-	if (*error == -1 || str == 0)
+	if (*error == 0 || *error == -1 || str == 0)
 		return (0);
 	while (str[digit])
 	{
@@ -89,18 +89,14 @@ void push(stack_t **stack, unsigned int line_number)
 void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;
-	int erreur = argumentCorrect("pall", 1);
+	int erreur = argumentCorrect("pall", 0);
 
 	_argument.passed = 0;
-	if (erreur == -1)
-	{
-		printf("L%u: usage: pall\n", line_number);
-		_argument.passed = 1;
-		exit(EXIT_FAILURE);
-	}
-	if (erreur == 0 || stack == 0 || *stack == 0)
+	if (erreur == 0)
 		return;
 	_argument.passed = 1;
+	if (stack == 0 || *stack == 0)
+		return;
 	while (tmp->prev != 0)
 	{
 		stack_t *next = tmp;
@@ -118,4 +114,5 @@ void pall(stack_t **stack, unsigned int line_number)
 		if (tmp != 0)
 			tmp->prev = prev;
 	}
+	line_number++;
 }
