@@ -61,7 +61,7 @@ int _strcmp(char *s1, char *s2);
 
 int isMontyFile(char *filename);
 
-int _free(char **arg);
+int _free(char **arg, char *line);
 char **_getline_arg(FILE *file, int *arc);
 
 void defineInstruction(void);

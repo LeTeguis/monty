@@ -33,11 +33,11 @@ int core(FILE *fichier, int ligne)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n",
 				ligne + 1, _argument.argv[0]);
-		_free(_argument.argv);
+		_free(_argument.argv, 0);
 		exit(EXIT_FAILURE);
 		return (0);
 	}
-	_free(_argument.argv);
+	_free(_argument.argv, 0);
 	return (1);
 }
 /**

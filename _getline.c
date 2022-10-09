@@ -37,11 +37,11 @@ size_t _nbrarg(char *line)
  *
  * Return: word
  */
-char *getWordI(char *line, size_t index)
+char *getWordI(char *line, int *index)
 {
-	size_t n = 0;
-	size_t i = 0;
-	size_t j = 0;
+	int n = 0;
+	int i = 0;
+	int j = 0;
 	int prev = 0;
 	int actu = 0;
 	int deb = -1;
@@ -55,7 +55,7 @@ char *getWordI(char *line, size_t index)
 		actu = (line[i] == ' ') ? 0 : 1;
 		if (actu == 1 && prev == 0)
 			n++;
-		if (n - 1 == index)
+		if (n - 1 == *index)
 		{
 			deb = i;
 			break;
@@ -63,7 +63,10 @@ char *getWordI(char *line, size_t index)
 		i++;
 	}
 	if (deb == -1)
+	{
+		*index = -1;
 		return (0);
+	}
 	i = deb;
 	while (line[i])
 	{
@@ -71,11 +74,10 @@ char *getWordI(char *line, size_t index)
 			break;
 		i++;
 	}
-	word = (char *)malloc(sizeof(char) * (i - deb));
-	if (printferr(word == 0, "Error: malloc failed", ""))
-		return (0);
-	for (j = 0; j <= i - deb; j++)
-		word[j] = (j == i - deb) ? '\0' : line[deb + j];
+	word = (char *)malloc(sizeof(char) * (i - deb + 1));
+	if (word != 0)
+		for (j = 0; j <= i - deb; j++)
+			word[j] = (j == i - deb) ? '\0' : line[deb + j];
 	return (word);
 }
 
@@ -83,19 +85,28 @@ char *getWordI(char *line, size_t index)
  * _free - delete
  *
  * @arg: str str
+ * @line: str
  *
- * Return: 0
+ * Return: 0i
  */
-int _free(char **arg)
+int _free(char **arg, char *line)
 {
 	if (arg != 0)
 	{
 		int i = 0;
 
 		while (arg[i])
+		{
 			free(arg[i++]);
+		}
 		free(arg);
 	}
+	if (line != 0)
+	{
+		free(line);
+	}
+	arg = 0;
+	line = 0;
 	return (0);
 }
 /**
@@ -108,42 +119,43 @@ int _free(char **arg)
  */
 char **_getline_arg(FILE *file, int *arc)
 {
-	char *linestr;
+	char *linestr = 0;
 	size_t n = 0;
-	size_t nbr_arg = 0;
-	size_t i = 0;
-	char **arg;
+	int i = 0;
+	char **arg = 0;
 
-	*arc = 0;
 	if (getline(&linestr, &n, file) == -1)
 	{
 		*arc = -1;
+		_free(0, linestr);
 		return (0);
 	}
-	nbr_arg = _nbrarg(linestr);
-	if (nbr_arg == 0)
+	*arc = (int)_nbrarg(linestr);
+	if (*arc == 0)
+	{
+		_free(0, linestr);
 		return (0);
-	arg = (char **)malloc(sizeof(char *) * (nbr_arg + 1));
+	}
+	arg = (char **)malloc(sizeof(char *) * (*arc + 1));
 	if (arg == 0)
 	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
+		_free(0, linestr);
+		printferr(1, "Error: malloc failed", "");
 		return (0);
 	}
-	for (i = 0; i < nbr_arg; i++)
+	for (i = 0; i < *arc; i++)
 	{
-		char *word = getWordI(linestr, i);
+		char *word = getWordI(linestr, &i);
 
 		if (word == 0)
 		{
-			_free(arg);
-			free(linestr);
-			return (0);
+			_free(arg, linestr);
+			printferr(i == -1, "Error: malloc failed", "");
+			break;
 		}
 		arg[i] = word;
 	}
-	arg[nbr_arg] = 0;
-	free(linestr);
-	*arc = (int)nbr_arg;
+	if (arg != 0)
+		arg[*arc] = 0;
 	return (arg);
 }
