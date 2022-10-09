@@ -11,6 +11,7 @@
 int _atoi(char *str, int *error)
 {
 	int digit = 0;
+	int signe = 0;
 
 	if (*error == 0 || str == 0)
 		return (0);
@@ -18,8 +19,13 @@ int _atoi(char *str, int *error)
 	{
 		if (str[digit] < '0' || str[digit] > '9')
 		{
-			*error = -1;
-			return (0);
+			if ((str[digit] == '-' && signe == 1)
+					|| str[digit] != '-')
+			{
+				*error = -1;
+				return (0);
+			}
+			signe = 1;
 		}
 		digit++;
 	}
