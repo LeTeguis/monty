@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
 				if (error)
 				{
-					printf("L%d: unknown instruction %s\n", ligne + 1, _argument.argv[0]);
+					fprintf(stderr, "L%d: unknown instruction %s\n", ligne + 1, _argument.argv[0]);
 					_free(_argument.argv);
 					exit(EXIT_FAILURE);
 					return (0);

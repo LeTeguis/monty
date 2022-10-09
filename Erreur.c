@@ -4,7 +4,7 @@ int printferr(int erreur, char *message, char *sup)
 {
 	if (erreur)
 	{
-		printf("%s%s\n", message, sup);
+		fprintf(stderr, "%s%s\n", message, sup);
 		exit(EXIT_FAILURE);
 	}
 	return (erreur);
