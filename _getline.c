@@ -39,6 +39,7 @@ char *getWordI(char *line, size_t index)
 {
 	size_t n = 0;
 	size_t i = 0;
+	size_t j = 0;
 	int prev = 0;
 	int actu = 0;
 	int deb = -1;
@@ -69,13 +70,10 @@ char *getWordI(char *line, size_t index)
 		i++;
 	}
 	word = (char *)malloc(sizeof(char) * (i - deb));
-	if (word == 0)
-	{
-		printferr(0, "Error: malloc failed", "");
+	if (printferr(word == 0, "Error: malloc failed", ""))
 		return (0);
-	}
-	for (i = 0; i <= i - deb; i++)
-		word[i] = (i == i - deb) ? '\0' : line[deb + i];
+	for (j = 0; j <= i - deb; j++)
+		word[j] = (j == i - deb) ? '\0' : line[deb + j];
 	return (word);
 }
 
